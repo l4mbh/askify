@@ -1,7 +1,7 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
 # Documentation Standards for Askify
 
@@ -165,3 +165,4 @@ Document all significant changes:
 - UserButton styled component
 - Duplicate animation variants
 ```
+

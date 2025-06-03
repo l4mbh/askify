@@ -1,7 +1,7 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
 # Design System Rules for Askify
 
@@ -78,3 +78,4 @@ import {
 } from '../../styles/designSystem';
 import { acrylicButton, themeAwareText } from '../../styles/theme';
 ```
+

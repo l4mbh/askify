@@ -1,7 +1,7 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
 # UI Components Usage Guide
 
@@ -9,7 +9,7 @@ alwaysApply: false
 
 ### Core UI Components
 
-Tất cả components trong [frontend/src/components/ui/](mdc:frontend/src/components/ui/) được thiết kế với theme-aware styling.
+Tất cả components trong [frontend/src/components/ui/](mdc:frontend/src/components/ui) được thiết kế với theme-aware styling.
 
 #### Card Component
 [frontend/src/components/ui/Card.tsx](mdc:frontend/src/components/ui/Card.tsx)
@@ -218,3 +218,4 @@ const ProductCard = styled(Card)`
 2. **Memoize** expensive props
 3. **Use styled-components** efficiently
 4. **Avoid inline styles** trong JSX
+

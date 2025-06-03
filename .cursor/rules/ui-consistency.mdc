@@ -1,7 +1,7 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
 # UI Consistency Rules for Askify
 
@@ -188,3 +188,4 @@ onClick={() => handleSomething()}
 - Use consistent icon sizes (20px standard)
 - Tree-shake unused icons
 - Single icon library to reduce bundle size
+

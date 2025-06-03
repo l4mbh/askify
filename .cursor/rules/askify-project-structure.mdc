@@ -1,7 +1,7 @@
 ---
-description:
-globs:
-alwaysApply: false
+description: 
+globs: 
+alwaysApply: true
 ---
 # Askify Project Structure & Guidelines
 
@@ -18,12 +18,12 @@ Askify là một Topic-Based Q&A Platform được xây dựng với React + Vit
 - [frontend/src/hooks/useTheme.ts](mdc:frontend/src/hooks/useTheme.ts) - Theme management hook
 
 ### UI Components System
-- [frontend/src/components/ui/](mdc:frontend/src/components/ui/) - Reusable theme-aware UI components
+- [frontend/src/components/ui/](mdc:frontend/src/components/ui) - Reusable theme-aware UI components
 - [frontend/src/components/ui/index.ts](mdc:frontend/src/components/ui/index.ts) - Centralized exports
 - [frontend/src/components/ui/README.md](mdc:frontend/src/components/ui/README.md) - Comprehensive usage guide
 
 ### Shared Components  
-- [frontend/src/components/shared/](mdc:frontend/src/components/shared/) - Acrylic components (Button, Input, Container)
+- [frontend/src/components/shared/](mdc:frontend/src/components/shared) - Acrylic components (Button, Input, Container)
 - [frontend/src/components/shared/AcrylicProvider.tsx](mdc:frontend/src/components/shared/AcrylicProvider.tsx) - Theme provider
 - [frontend/src/components/shared/BackgroundContainer.tsx](mdc:frontend/src/components/shared/BackgroundContainer.tsx) - Animated gradient backgrounds
 
@@ -112,3 +112,4 @@ frontend/src/
 - `[UPDATE - DD/MM] - Description` cho updates
 - `[FIX - DD/MM] - Description` cho bug fixes
 - Always commit in English với Vietnamese comments trong code
+
