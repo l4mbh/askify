@@ -1,0 +1,220 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# UI Components Usage Guide
+
+## Available Components
+
+### Core UI Components
+
+Tất cả components trong [frontend/src/components/ui/](mdc:frontend/src/components/ui/) được thiết kế với theme-aware styling.
+
+#### Card Component
+[frontend/src/components/ui/Card.tsx](mdc:frontend/src/components/ui/Card.tsx)
+
+```tsx
+import { Card } from '../components/ui';
+
+<Card padding="md">
+  <h3>Content</h3>
+</Card>
+```
+
+**Props:** `padding`, `className`, `children`
+
+#### FeatureCard Component  
+[frontend/src/components/ui/FeatureCard.tsx](mdc:frontend/src/components/ui/FeatureCard.tsx)
+
+```tsx
+import { FeatureCard } from '../components/ui';
+
+<FeatureCard
+  icon="🔍" 
+  title="Feature Title"
+  description="Feature description"
+/>
+```
+
+**Props:** `icon`, `title`, `description`, `className`
+
+#### ThemeButton Component
+[frontend/src/components/ui/ThemeButton.tsx](mdc:frontend/src/components/ui/ThemeButton.tsx)
+
+```tsx
+import { ThemeButton } from '../components/ui';
+
+<ThemeButton size="md" onClick={handleClick}>
+  Button Text
+</ThemeButton>
+```
+
+**Props:** `size`, `onClick`, `className`, `children`
+
+#### MenuLink Component
+[frontend/src/components/ui/MenuLink.tsx](mdc:frontend/src/components/ui/MenuLink.tsx)
+
+```tsx
+import { MenuLink } from '../components/ui';
+
+<MenuLink to="/path">Link Text</MenuLink>
+```
+
+#### Divider Component
+[frontend/src/components/ui/Divider.tsx](mdc:frontend/src/components/ui/Divider.tsx)
+
+```tsx
+import { Divider } from '../components/ui';
+
+<Divider orientation="vertical" size="md" />
+```
+
+### Shared Acrylic Components
+
+#### AcrylicButton
+[frontend/src/components/shared/AcrylicButton.tsx](mdc:frontend/src/components/shared/AcrylicButton.tsx)
+
+```tsx
+import { AcrylicButton } from '../components/shared';
+
+<AcrylicButton variant="primary" size="md">
+  Click Me
+</AcrylicButton>
+```
+
+**Variants:** `primary`, `success`, `secondary`
+**Sizes:** `sm`, `md`, `lg`
+
+#### AcrylicInput
+[frontend/src/components/shared/AcrylicInput.tsx](mdc:frontend/src/components/shared/AcrylicInput.tsx)
+
+```tsx
+import { AcrylicInput } from '../components/shared';
+
+<AcrylicInput 
+  type="text" 
+  placeholder="Enter text"
+  value={value}
+  onChange={handleChange}
+/>
+```
+
+#### AcrylicContainer
+[frontend/src/components/shared/AcrylicContainer.tsx](mdc:frontend/src/components/shared/AcrylicContainer.tsx)
+
+```tsx
+import { AcrylicContainer } from '../components/shared';
+
+<AcrylicContainer padding="lg" maxWidth="md">
+  <Content />
+</AcrylicContainer>
+```
+
+## Component Selection Guidelines
+
+### When to use each component:
+
+1. **Card** - Basic container với acrylic effects
+2. **FeatureCard** - Display features với icon + text
+3. **ThemeButton** - Interactive buttons với theme support
+4. **AcrylicButton** - Advanced buttons với variants
+5. **AcrylicContainer** - Page sections với acrylic backgrounds
+
+### Component Hierarchy
+
+```
+AcrylicContainer (Page level)
+  └── Card (Section level)
+      └── FeatureCard (Content level)
+          └── ThemeButton (Action level)
+```
+
+## Styling Patterns
+
+### Theme-Aware Components
+
+Always use theme mixins từ [frontend/src/styles/theme.ts](mdc:frontend/src/styles/theme.ts):
+
+```tsx
+import styled from 'styled-components';
+import { acrylicBase, themeAwareText } from '../../styles/theme';
+
+const CustomComponent = styled.div`
+  ${acrylicBase}
+  ${themeAwareText}
+  // Custom styles here
+`;
+```
+
+### Responsive Design
+
+```tsx
+const ResponsiveCard = styled(Card)`
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 2rem;
+  }
+`;
+```
+
+## Import Patterns
+
+### Centralized Import
+```tsx
+import { Card, FeatureCard, ThemeButton } from '../components/ui';
+import { AcrylicButton, AcrylicInput } from '../components/shared';
+```
+
+### Individual Import
+```tsx
+import Card from '../components/ui/Card';
+import FeatureCard from '../components/ui/FeatureCard';
+```
+
+## Component Extension
+
+### Creating New Components
+
+1. **Extend existing components** khi có thể
+2. **Use theme mixins** cho consistency
+3. **Add to index.ts** để export
+4. **Update documentation**
+
+```tsx
+// Example: ProductCard extends Card
+import styled from 'styled-components';
+import { Card } from './Card';
+import { themeAwareText } from '../../styles/theme';
+
+const ProductCard = styled(Card)`
+  ${themeAwareText}
+  min-height: 200px;
+  
+  &:hover {
+    transform: translateY(-4px);
+  }
+`;
+```
+
+## Testing Components
+
+### Theme Testing
+- Test cả light và dark theme
+- Verify text contrast ratios  
+- Check acrylic effects visibility
+
+### Responsive Testing
+- Mobile (< 768px)
+- Tablet (768px - 1024px)  
+- Desktop (> 1024px)
+
+## Performance Tips
+
+1. **Lazy load** large components
+2. **Memoize** expensive props
+3. **Use styled-components** efficiently
+4. **Avoid inline styles** trong JSX

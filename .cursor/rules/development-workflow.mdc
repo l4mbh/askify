@@ -1,0 +1,205 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Development Workflow & Standards
+
+## Git Workflow
+
+### Commit Message Format
+- `[UPDATE - DD/MM] - Description` cho feature updates
+- `[FIX - DD/MM] - Description` cho bug fixes  
+- `[REFACTOR - DD/MM] - Description` cho code refactoring
+- Always write commit messages in English
+
+### Example Commits
+```
+[UPDATE - 03/06] - Add theme-aware Card and FeatureCard components
+[FIX - 03/06] - Resolve dark theme text visibility in HomePage cards
+[REFACTOR - 03/06] - Consolidate acrylic effects into theme system
+```
+
+## Development Commands
+
+### Frontend Development
+```bash
+# Navigate to frontend
+cd frontend
+
+# Install dependencies  
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+```
+
+### Key Configuration Files
+- [frontend/package.json](mdc:frontend/package.json) - Dependencies và scripts
+- [frontend/vite.config.ts](mdc:frontend/vite.config.ts) - Vite configuration
+- [frontend/tailwind.config.js](mdc:frontend/tailwind.config.js) - Tailwind setup
+- [frontend/tsconfig.json](mdc:frontend/tsconfig.json) - TypeScript config
+
+## Code Standards
+
+### TypeScript Standards
+- Always use TypeScript cho type safety
+- Define interfaces cho component props
+- Use proper typing cho event handlers
+- Avoid `any` type unless absolutely necessary
+
+```tsx
+interface ComponentProps {
+  title: string;
+  onClick?: () => void;
+  children?: React.ReactNode;
+}
+```
+
+### React Best Practices
+- Use functional components với hooks
+- Implement proper state management
+- Use `useCallback` và `useMemo` khi cần thiết
+- Follow component composition over inheritance
+
+### Styled Components Standards
+- Use theme mixins từ [frontend/src/styles/theme.ts](mdc:frontend/src/styles/theme.ts)
+- Follow component-based styling
+- Avoid inline styles trong JSX
+- Use proper TypeScript typing cho styled props
+
+```tsx
+const StyledComponent = styled.div<{ $variant: 'primary' | 'secondary' }>`
+  ${acrylicBase}
+  ${themeAwareText}
+  background: ${props => props.$variant === 'primary' ? 'blue' : 'gray'};
+`;
+```
+
+## File Naming Conventions
+
+### Components
+- **PascalCase** cho component files: `HomePage.tsx`, `FeatureCard.tsx`
+- **camelCase** cho utility files: `useTheme.ts`, `themeUtils.ts`
+- **kebab-case** cho style files: `shared-styles.ts`, `acrylic.css`
+
+### Folders
+- **PascalCase** cho component folders: `HomePage/`, `LoginPage/`
+- **camelCase** cho utility folders: `hooks/`, `utils/`
+- **lowercase** cho feature folders: `ui/`, `shared/`, `layouts/`
+
+## Code Organization
+
+### Component Structure
+```tsx
+// Imports
+import React from 'react';
+import styled from 'styled-components';
+import { theme mixins } from '../../styles/theme';
+
+// Types/Interfaces
+interface ComponentProps {
+  // props definition
+}
+
+// Styled Components
+const StyledComponent = styled.div`
+  // styles here
+`;
+
+// Main Component
+function ComponentName({ props }: ComponentProps) {
+  // Component logic
+  return (
+    <StyledComponent>
+      {/* JSX */}
+    </StyledComponent>
+  );
+}
+
+export default ComponentName;
+```
+
+### Page Structure
+```
+pages/
+├── HomePage/
+│   ├── index.tsx     # Main component
+│   ├── styles.ts     # Styled components
+│   └── types.ts      # TypeScript definitions (nếu cần)
+```
+
+## Quality Assurance
+
+### Before Commit Checklist
+- [ ] Code compiles without errors
+- [ ] Components work in both light và dark theme
+- [ ] Responsive design tested
+- [ ] TypeScript types are proper
+- [ ] No console errors in browser
+- [ ] Performance is acceptable
+
+### Testing Strategy
+- **Manual testing** trong browser
+- **Theme switching** testing
+- **Responsive** testing trên different devices
+- **Accessibility** basic checks
+
+## Development Tools
+
+### VSCode Extensions
+- ES7+ React/Redux/React-Native snippets
+- Styled Components
+- Tailwind CSS IntelliSense
+- TypeScript Importer
+- Auto Rename Tag
+
+### Browser DevTools
+- React Developer Tools
+- Redux DevTools (nếu sử dụng)
+- Lighthouse cho performance
+- Accessibility tools
+
+## Debugging Guidelines
+
+### Common Issues
+1. **Theme không apply**: Check AcrylicProvider wrapper
+2. **Acrylic effects không hiển thị**: Verify backdrop-filter support
+3. **TypeScript errors**: Check import paths và type definitions
+4. **Styling conflicts**: Use styled-components over Tailwind cho acrylic
+
+### Debug Process
+1. Check browser console errors
+2. Verify component imports
+3. Test theme switching
+4. Check responsive breakpoints
+5. Validate TypeScript compilation
+
+## Performance Optimization
+
+### Bundle Optimization
+- Use dynamic imports cho code splitting
+- Lazy load components khi appropriate
+- Optimize images và assets
+- Use production build cho testing
+
+### Runtime Performance
+- Avoid unnecessary re-renders
+- Use React.memo cho expensive components
+- Optimize styled-components với shouldForwardProp
+- Minimize inline functions trong JSX
+
+```tsx
+const OptimizedComponent = styled.div.withConfig({
+  shouldForwardProp: (prop) => !['$customProp'].includes(prop),
+})`
+  // styles
+`;
+```
+

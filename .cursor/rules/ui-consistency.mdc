@@ -1,0 +1,190 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# UI Consistency Rules for Askify
+
+## Design Consistency Standards
+
+### Color Usage
+Always use design tokens from [designSystem.ts](mdc:frontend/src/styles/designSystem.ts):
+```typescript
+// ✅ GOOD - Design system colors
+color: ${brandColors.primary[500]};
+background: ${semanticColors.success[100]};
+
+// ❌ BAD - Hardcoded colors  
+color: #667eea;
+background: #d1fae5;
+```
+
+### Spacing Consistency
+Use the spacing scale (xs, sm, md, lg, xl, 2xl, 3xl, 4xl, 5xl):
+```typescript
+// ✅ GOOD - Consistent spacing
+padding: ${spacing.md} ${spacing.lg};
+margin-bottom: ${spacing.xl};
+
+// ❌ BAD - Random values
+padding: 12px 16px;
+margin-bottom: 24px;
+```
+
+## Component Consistency
+
+### Menu Icons
+All menu icons must use [MenuIcon component](mdc:frontend/src/components/ui/MenuIcon.tsx):
+- Standard size: 20px (md)
+- Consistent hover effects
+- Proper accessibility titles
+- Unified animation timing
+
+### Avatar Standards
+- Small avatars: 24px (`avatarStyles.sm`)
+- Medium avatars: 32px (`avatarStyles.md`) 
+- Large avatars: 48px (`avatarStyles.lg`)
+- Always include `alt` text for accessibility
+
+### Button Consistency
+Reference standardized button components:
+- Use `acrylicButton` base style
+- Include `focusRing` for accessibility
+- Apply appropriate `hoverEffects`
+- Standard border radius: `borderRadius.lg`
+
+## Icon Library Standards
+
+### Preferred Libraries
+1. **react-icons/hi2** for interface icons (user, settings, etc.)
+2. **react-icons/io5** for notifications and alerts
+3. **react-icons/fa6** for social media icons
+
+### Migration from Heroicons
+```typescript
+// ✅ GOOD - Migrated to react-icons
+import { HiOutlineUser, HiOutlineBars3 } from 'react-icons/hi2';
+import { IoNotifications } from 'react-icons/io5';
+
+// ❌ BAD - Old Heroicons  
+import { UserIcon, Bars3Icon } from '@heroicons/react/24/outline';
+```
+
+## Animation Consistency
+
+### Hover Effects
+Standard hover transformations:
+```typescript
+&:hover {
+  transform: translateY(-1px);
+  border-color: ${brandColors.primary[300]};
+}
+
+&:hover svg {
+  transform: scale(1.1);
+  color: ${brandColors.primary[500]};
+}
+```
+
+### Spring Animation Settings
+Use consistent spring settings:
+```typescript
+transition: {
+  type: "spring",
+  stiffness: 400,  // For buttons
+  damping: 17
+}
+
+// For dropdowns/modals
+transition: {
+  type: "spring", 
+  stiffness: 300,
+  damping: 24
+}
+```
+
+## Dark Mode Consistency
+
+### Theme-Aware Components
+Every component must support both light and dark themes:
+```typescript
+const Component = styled.div`
+  ${themeAwareText}
+  background: ${themeColors.light.background.primary};
+  
+  .dark & {
+    background: ${themeColors.dark.background.primary};
+  }
+`;
+```
+
+### Color Adaptation
+- Light mode: `primary[500]`, `primary[300]` for borders
+- Dark mode: `primary[400]`, `primary[400]` for borders
+- Use semantic colors for status indicators
+
+## Responsive Design Standards
+
+### Breakpoints
+```typescript
+// Mobile-first approach
+@media (max-width: 768px) {
+  // Mobile styles
+}
+
+@media (max-width: 480px) {
+  // Small mobile styles  
+}
+```
+
+### Text Hiding on Mobile
+```typescript
+@media (max-width: 768px) {
+  .user-name {
+    display: none;  // Hide text, keep icons
+  }
+}
+```
+
+## Accessibility Requirements
+
+### Required Attributes
+- `title` prop for all interactive icons
+- `alt` text for all images/avatars
+- `aria-label` for complex components
+- Proper keyboard navigation support
+
+### Focus Management
+```typescript
+// Always include focus styles
+${focusRing}
+
+// Custom focus if needed
+&:focus-visible {
+  outline: 2px solid ${brandColors.primary[500]};
+  outline-offset: 2px;
+}
+```
+
+## Performance Guidelines
+
+### Minimize Re-renders
+```typescript
+// ✅ GOOD - Stable references
+const handleClick = useCallback(() => {
+  // handler logic
+}, [dependencies]);
+
+// ❌ BAD - New function on every render
+onClick={() => handleSomething()}
+```
+
+### Efficient Animations
+- Use `transform` and `opacity` for animations
+- Avoid animating `width`, `height`, `top`, `left`
+- Use `will-change` sparingly and clean up
+
+### Icon Optimization
+- Use consistent icon sizes (20px standard)
+- Tree-shake unused icons
+- Single icon library to reduce bundle size

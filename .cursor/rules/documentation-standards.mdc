@@ -1,0 +1,167 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Documentation Standards for Askify
+
+## Documentation Structure
+All documentation should be placed in `frontend/docs/` directory:
+```
+frontend/docs/
+├── DESIGN_SYSTEM.md           # Design system overview
+├── UI_FIXES.md               # UI issue resolutions
+├── ICON_STANDARDIZATION.md   # Icon library migration
+└── MENU_ICON_STANDARDIZATION.md  # Menu icon unification
+```
+
+## Documentation Templates
+
+### For UI/UX Changes
+Follow the pattern in [MENU_ICON_STANDARDIZATION.md](mdc:frontend/docs/MENU_ICON_STANDARDIZATION.md):
+
+```markdown
+# Feature Name - English Translation
+
+## Vấn Đề Đã Giải Quyết (Problems Solved)
+- List specific issues that were identified
+- Include code examples showing the problem
+
+## Giải Pháp (Solution)
+- Explain the approach taken
+- Show before/after code examples
+
+## Lợi Ích Đạt Được (Benefits Achieved)
+1. **Consistency**: Specific improvements
+2. **Maintainability**: How it's easier to maintain
+3. **Performance**: Any performance gains
+4. **Accessibility**: Accessibility improvements
+```
+
+### For Component Documentation
+```typescript
+/**
+ * MenuIcon - Standardized menu icon component
+ * 
+ * @example
+ * // Basic usage
+ * <MenuIcon onClick={handleClick} title="Menu">
+ *   <SomeIcon />
+ * </MenuIcon>
+ * 
+ * // With auto-width for complex content
+ * <MenuIcon autoWidth={true} onClick={handleClick}>
+ *   <ComplexContent />
+ * </MenuIcon>
+ */
+interface MenuIconProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  title?: string;          // Required for screen readers
+  size?: 'sm' | 'md' | 'lg';
+  autoWidth?: boolean;
+}
+```
+
+## Git Commit Standards
+
+### Commit Message Format
+Always use Vietnamese for commit content but English prefixes:
+```
+[UPDATE - Day/Month] - Nội dung commit
+[FIX - Day/Month] - Nội dung sửa lỗi
+[FEATURE - Day/Month] - Tính năng mới
+[REFACTOR - Day/Month] - Tái cấu trúc code
+```
+
+### Examples
+```bash
+git commit -m "[UPDATE - 19/12] - Chuẩn hoá hover effects cho icon menu"
+git commit -m "[FIX - 19/12] - Sửa lỗi icon notification không hiển thị"
+git commit -m "[FEATURE - 19/12] - Thêm MenuIcon component chung"
+```
+
+## Code Comments Guidelines
+
+### Component Level Comments
+```typescript
+/**
+ * UserMenu - Menu dropdown cho user với theme toggle
+ * Hỗ trợ both authenticated và guest users
+ */
+function UserMenu({ user, onLogin, onLogout }: UserMenuProps) {
+```
+
+### Function Level Comments  
+```typescript
+/**
+ * Xử lý click outside để đóng menu
+ */
+const handleClickOutside = (event: MouseEvent) => {
+  // Implementation
+};
+```
+
+### Inline Comments Rules
+- **NO inline comments** on the same line as code
+- Use comments **only at the top** of logic blocks
+- Write comments in Vietnamese for business logic
+- Use English for technical/library-specific comments
+
+```typescript
+// ✅ GOOD - Comment at top of block
+// Xử lý animation khi hover
+const handleHover = () => {
+  setIsHovered(true);
+  playAnimation();
+};
+
+// ❌ BAD - Inline comment
+setIsHovered(true); // Set hover state
+```
+
+## README Structure
+Each major component or system should have usage examples:
+
+```markdown
+## Usage
+
+### Basic Example
+\`\`\`typescript
+<MenuIcon onClick={handleClick}>
+  <NotificationIcon />
+</MenuIcon>
+\`\`\`
+
+### Advanced Example
+\`\`\`typescript
+<MenuIcon autoWidth={true} size="lg">
+  <ComplexUserDisplay />
+</MenuIcon>
+\`\`\`
+
+## Props
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| size | 'sm' \| 'md' \| 'lg' | 'md' | Icon size variant |
+```
+
+## Change Log Format
+Document all significant changes:
+
+```markdown
+## [UPDATE - 19/12] - Menu Icon Standardization
+### Added
+- MenuIcon component with unified hover effects
+- AutoWidth support for complex content
+- Size variants (sm, md, lg)
+
+### Changed  
+- NotificationDropdown now uses MenuIcon
+- UserMenu migrated to MenuIcon
+
+### Removed
+- NotificationButton styled component
+- UserButton styled component
+- Duplicate animation variants
+```

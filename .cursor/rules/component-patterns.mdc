@@ -1,0 +1,144 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Component Patterns for Askify
+
+## File Structure
+Components should follow this structure:
+```
+frontend/src/components/
+├── ui/                    # Reusable UI components
+│   ├── MenuIcon.tsx      # Standardized menu icons
+│   ├── UserMenu.tsx      # User dropdown menu
+│   └── NotificationDropdown.tsx
+├── layout/               # Layout components
+└── pages/               # Page-specific components
+```
+
+## Component Architecture
+
+### Reusable UI Components
+Located in [frontend/src/components/ui/](mdc:frontend/src/components/ui), these should be:
+- **Highly reusable** across different parts of the app
+- **Design system compliant** using tokens from [designSystem.ts](mdc:frontend/src/styles/designSystem.ts)
+- **TypeScript interfaces** for all props
+- **Accessibility-first** with proper ARIA attributes
+
+### Example: MenuIcon Component
+Reference [MenuIcon.tsx](mdc:frontend/src/components/ui/MenuIcon.tsx) as the standard pattern:
+```typescript
+interface MenuIconProps {
+  children: React.ReactNode;
+  onClick?: () => void;
+  title?: string;           // Required for accessibility
+  size?: 'sm' | 'md' | 'lg';
+  autoWidth?: boolean;
+}
+```
+
+## Styling Patterns
+
+### Styled Components Structure
+```typescript
+// 1. Container (outer wrapper)
+const Container = styled.div`
+  position: relative;
+  z-index: 100;
+`;
+
+// 2. Main interactive element
+const Button = styled(motion.button)`
+  ${acrylicButton}
+  ${focusRing}
+  // ... component-specific styles
+`;
+
+// 3. Content elements
+const Content = styled.div`
+  // ... layout styles
+`;
+```
+
+### Animation Patterns
+Follow the pattern in [UserMenu.tsx](mdc:frontend/src/components/ui/UserMenu.tsx):
+```typescript
+const variants = {
+  hidden: { opacity: 0, scale: 0.95, y: -10 },
+  visible: { 
+    opacity: 1, 
+    scale: 1, 
+    y: 0,
+    transition: { type: "spring", stiffness: 300, damping: 24 }
+  }
+};
+```
+
+## Icon Usage
+
+### Use react-icons Consistently
+```typescript
+// ✅ GOOD - react-icons/hi2 for interface icons
+import { HiOutlineUser, HiOutlineSun } from 'react-icons/hi2';
+
+// ✅ GOOD - react-icons/io5 for notifications
+import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
+
+// ❌ BAD - Mixing libraries
+import { UserIcon } from '@heroicons/react/24/outline';
+```
+
+### Icon Size Standards
+- Menu icons: 20px (use `iconStyles.md`)
+- Avatars: 24px (use `avatarStyles.sm`)
+- Large icons: 24px (use `iconStyles.lg`)
+
+## Props and Interface Patterns
+
+### Common Props Structure
+```typescript
+interface ComponentProps {
+  // Required props first
+  children: React.ReactNode;
+  
+  // Event handlers
+  onClick?: () => void;
+  onSubmit?: (data: FormData) => void;
+  
+  // Configuration
+  variant?: 'primary' | 'secondary';
+  size?: 'sm' | 'md' | 'lg';
+  
+  // Optional styling
+  className?: string;
+  
+  // Accessibility
+  title?: string;
+  'aria-label'?: string;
+}
+```
+
+## State Management Patterns
+
+### useRef for DOM elements
+```typescript
+const menuRef = useRef<HTMLDivElement>(null);
+
+// Click outside handler
+useEffect(() => {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+  // ...
+}, []);
+```
+
+### useState for UI state
+```typescript
+const [isOpen, setIsOpen] = useState(false);
+const [isLoading, setIsLoading] = useState(false);
+```
+

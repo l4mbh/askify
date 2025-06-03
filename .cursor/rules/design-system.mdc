@@ -1,0 +1,80 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Design System Rules for Askify
+
+## Design System Structure
+The design system is located in [frontend/src/styles/designSystem.ts](mdc:frontend/src/styles/designSystem.ts) and provides:
+- **Brand colors**: Primary (#667eea), secondary (#764ba2) color palettes
+- **Semantic colors**: Success, error, warning color schemes  
+- **Spacing scale**: xs to 5xl spacing tokens
+- **Typography**: Font size and weight scales
+- **Component tokens**: Icon sizes, avatar sizes, button variants
+- **Theme colors**: Light/dark mode color definitions
+
+## Component Styling Guidelines
+
+### Use Design Tokens
+```typescript
+// ✅ GOOD - Use design tokens
+const Button = styled.button`
+  padding: ${spacing.md} ${spacing.lg};
+  border-radius: ${borderRadius.lg};
+  color: ${brandColors.primary[500]};
+`;
+
+// ❌ BAD - Hardcoded values
+const Button = styled.button`
+  padding: 12px 16px;
+  border-radius: 8px;
+  color: #667eea;
+`;
+```
+
+### Theme-Aware Styling
+Always use `themeAwareText` and theme-specific colors:
+```typescript
+const Component = styled.div`
+  ${themeAwareText}
+  color: ${themeColors.light.text.primary};
+  
+  .dark & {
+    color: ${themeColors.dark.text.primary};
+  }
+`;
+```
+
+### Icon Standardization
+Use [MenuIcon component](mdc:frontend/src/components/ui/MenuIcon.tsx) for all menu icons:
+```typescript
+// ✅ GOOD - Standardized menu icon
+<MenuIcon onClick={handleClick} title="Menu action">
+  <SomeIcon />
+</MenuIcon>
+
+// ❌ BAD - Custom styled button
+<CustomButton onClick={handleClick}>
+  <SomeIcon />
+</CustomButton>
+```
+
+## Animation Standards
+Use Framer Motion with consistent variants from design system:
+- **Hover effects**: `hoverEffects.lift`, `hoverEffects.slideRight`
+- **Focus**: `focusRing` for accessibility
+- **Spring animations**: `stiffness: 400, damping: 17` for buttons
+
+## Required Imports Pattern
+```typescript
+import {
+  brandColors,
+  spacing,
+  borderRadius,
+  themeColors,
+  iconStyles,
+  hoverEffects
+} from '../../styles/designSystem';
+import { acrylicButton, themeAwareText } from '../../styles/theme';
+```
